@@ -43,5 +43,3 @@ export const LoginPage=({Login,error})=>{
     </>
     );
 }
-
-export default LoginPage
