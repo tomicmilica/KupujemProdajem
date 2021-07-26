@@ -18,6 +18,7 @@ export const LoginPage = () => {
 
   return (
     <>
+    <div className="box-layout">
       <form onSubmit={login}>
         <div>
           <h1>Login-Page</h1>
@@ -49,6 +50,8 @@ export const LoginPage = () => {
           Sign up
         </Link>
       </form>
+      </div>
     </>
+
   );
 };

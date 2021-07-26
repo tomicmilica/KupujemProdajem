@@ -21,6 +21,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "4.0.3",
     "react-testing-library": "^8.0.1",
+    "scss": "^0.2.4",
     "web-vitals": "^1.1.2",
     "yarn": "^1.22.10"
   },
