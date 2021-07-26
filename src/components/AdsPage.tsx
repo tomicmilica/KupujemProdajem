@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import  getAds from '../services/AdsService'
 
 interface AdsResponseDTO {
   name: string;
@@ -7,10 +7,12 @@ interface AdsResponseDTO {
   price: string;
   city: string;
   category: string;
+  url: string;
 }
 
 const AdsPage = () => {
   const [ads, setAds] = useState<AdsResponseDTO[]>();
+  const [search, setSearch] = useState<String>('');
 
   useEffect(() => {
     (async () => {
@@ -19,46 +21,66 @@ const AdsPage = () => {
   }, []);
 
   const fetchData = async () => {
-    const response = await axios.get("http://localhost:3001/getAds");
-    console.log(response);
-
+    const response = await getAds();
     setAds(response.data);
   };
+
+  const handleSearch =(e:any)=>{
+      setSearch(e.target.value);
+  }
 
   const displayAll = () => {
     if (ads) {
       if (ads.length) {
-        return ads.map((ad) => (
+        return ads.filter((ad)=>{
+            if(search === ""){
+                return ad;
+            }
+            else if(ad.name.toLowerCase().includes(search.toLowerCase())){
+              return ad
+            }
+        }).map((ad) => (
+          <div>      
           <div>
-            <div>
-              <label>Name:</label>
-              <p>{ad.name}</p>
-            </div>
-
-            <div>
-              <p>{ad.description}</p>
-            </div>
-
-            <div>
-              <p>{ad.price}</p>
-            </div>
-
-            <div>
-              <p>{ad.city}</p>
-            </div>
-
-            <div>
-              <p>{ad.category}</p>
-            </div>
+            <label>Name:</label>
+            <label>{ad.name}</label>
           </div>
-        ));
-      } else {
-      }
-    }
-  };
+          <div>
+            <label>Description:</label>
+            <label>{ad.description}</label>
+          </div>
+          <div>
+          <label>Price:</label>
+          <label>{ad.price}</label>
+          </div>
+          <div>
+          <label>City:</label>
+          <label>{ad.city}</label>
+          </div>
+          <div>
+          <label>Category:</label>
+          <label>{ad.category}</label>
+          </div>
+          <div>
+            <tr>
+              <th scope="row">
+              <img src={ad.url} width="250" height="200" alt=""/>
+              </th>
+            </tr>
+          </div>
+        </div>
+        ))
+  }
+  }
+}
+    
   return (
     <div>
       <h1>Welcome</h1>
+      <div>
+              <input type="text" onChange={handleSearch} placeholder="Search..."/>
+             
+      </div>
       <form>
         <div>{ads ? displayAll() : <p>Ucitavanje...</p>}</div>
       </form>
