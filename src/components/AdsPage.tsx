@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import  getAds from '../services/AdsService'
 
 interface AdsResponseDTO {
   name: string;
@@ -7,6 +7,7 @@ interface AdsResponseDTO {
   price: string;
   city: string;
   category: string;
+  url: string
 }
 
 const AdsPage = () => {
@@ -19,9 +20,7 @@ const AdsPage = () => {
   }, []);
 
   const fetchData = async () => {
-    const response = await axios.get("http://localhost:3001/getAds");
-    console.log(response);
-
+    const response = await getAds();
     setAds(response.data);
   };
 
@@ -49,6 +48,13 @@ const AdsPage = () => {
 
             <div>
               <p>{ad.category}</p>
+            </div>
+            <div>
+              <tr>
+                <th scope="row">
+                <img src={ad.url} width="250" height="200" alt=""/>
+                </th>
+              </tr>
             </div>
           </div>
         ));
