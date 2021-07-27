@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import  getAds from '../services/AdsService'
-import Axios from "axios";
+import { findAd } from '../services/AdsService'
 
 interface AdsResponseDTO {
   name: string;
@@ -20,8 +19,9 @@ const AdsPage = () => {
     fetchAds();
   }, [query]);
 
-  const fetchAds = async ()=> {
-    const { data } = await Axios.get(`http://localhost:3001/findAd?search=${query}`)
+
+  const fetchAds = async () => {
+    const { data } = await findAd(query)
     setAds(data);
   }
 
