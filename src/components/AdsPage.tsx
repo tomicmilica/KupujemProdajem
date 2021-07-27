@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import  getAds from '../services/AdsService'
+import { findAd } from '../services/AdsService'
 
 interface AdsResponseDTO {
   name: string;
@@ -12,34 +12,25 @@ interface AdsResponseDTO {
 
 const AdsPage = () => {
   const [ads, setAds] = useState<AdsResponseDTO[]>();
-  const [search, setSearch] = useState<String>('');
+  const [query, setQuery] = useState<string>('');
+  const [category, setCategory] = useState<String>('');
 
   useEffect(() => {
-    (async () => {
-      await fetchData();
-    })();
-  }, []);
+    fetchAds();
+  }, [query]);
 
-  const fetchData = async () => {
-    const response = await getAds();
-    setAds(response.data);
-  };
 
-  const handleSearch =(e:any)=>{
-      setSearch(e.target.value);
+  const fetchAds = async () => {
+    const { data } = await findAd(query)
+    setAds(data);
   }
+
+  const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);
 
   const displayAll = () => {
     if (ads) {
       if (ads.length) {
-        return ads.filter((ad)=>{
-            if(search === ""){
-                return ad;
-            }
-            else if(ad.name.toLowerCase().includes(search.toLowerCase())){
-              return ad
-            }
-        }).map((ad) => (
+        return ads.map((ad) => (
           <div>      
           <div>
             <label>Name:</label>
@@ -78,8 +69,22 @@ const AdsPage = () => {
     <div>
       <h1>Welcome</h1>
       <div>
-              <input type="text" onChange={handleSearch} placeholder="Search..."/>
-             
+      <label> Search by category:</label>
+        <select id="category" onChange={(e) => setCategory(e.target.value)}>
+          <option value="" >Choose a category:</option>
+          <option value="clothing">clothing</option>
+          <option value="toys">toys</option>
+          <option value="sports">sports</option>
+          <option value="tools">tools</option>
+          <option value="pets">pets</option>
+          <option value="games">games</option>
+          <option value="baby">baby</option>
+          <option value="technology">technology</option>
+       </select>
+       <button>Search</button>
+      </div>
+      <div>
+              <input type="text" onChange={handleChangeSearchQuery} placeholder="Search..."/> 
       </div>
       <form>
         <div>{ads ? displayAll() : <p>Ucitavanje...</p>}</div>
