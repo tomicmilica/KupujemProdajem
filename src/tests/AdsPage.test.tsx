@@ -5,7 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import AdsPage from '../components/AdsPage';
 // the component to test
 
-jest.mock('../services/AdsService', () => ({
+jest.mock('../services/AdsPageService', () => ({
     findAd: () => {
         return Promise.resolve({
             data:
