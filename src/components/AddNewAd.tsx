@@ -64,7 +64,7 @@ return (
         </div>
         <div>
          <div>
-        <label> </label>
+        <label> Category:</label>
         <select id="category" onChange={(e) => setCategory(e.target.value)}>
           <option value="" >Choose a category:</option>
           <option value="clothing">clothing</option>
