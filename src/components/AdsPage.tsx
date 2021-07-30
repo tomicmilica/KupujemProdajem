@@ -18,7 +18,7 @@ const AdsPage = () => {
   const [category, setCategory] = useState<string>('');
 
   const fetchAds = async () => {
-    const { data } = await findAd(query)
+    const { data } = await findAd(query);
     setAds(data);
   }
 
@@ -38,7 +38,7 @@ const AdsPage = () => {
     }
 
     return ads.map((ad) => (
-      <Link to={`/${ad.id}`} key={ad.id}>
+      <div>
         <div>
           <label>Name:</label>
           <label>{ad.name}</label>
@@ -64,7 +64,7 @@ const AdsPage = () => {
             <img src={ad.url} width="250" height="200" alt="" />
           </th>
         </tr>
-      </Link>
+      </div>
     ))
   }
 
