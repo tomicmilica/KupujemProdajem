@@ -1,8 +1,11 @@
 
 import axios from "axios";
+require('dotenv').config()
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const getAds = async () => {
-  const response = await axios.get("http://localhost:3001/getAds");
+
+export const getAd = async (id?: number) => {
+  const response = await axios.get(BASE_URL + `/getAd/${id}`);
   console.log(response);
   return response;
 };
@@ -20,7 +23,8 @@ export const findAd = async (name?: string, category?: string) => {
   }
 
 
-  const response = await axios.get(`http://localhost:3001/findAd?${query}`);
+  const response = await axios.get(BASE_URL + `/findAd?${query}`);
   console.log(response);
   return response;
 }
+

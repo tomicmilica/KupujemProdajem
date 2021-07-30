@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { findAd } from '../services/AdsPageService'
+import { useState, useEffect } from "react";
+import { findAd } from '../services/adsPageService'
+import { Link } from "react-router-dom";
 
 interface AdsResponseDTO {
+  id: string,
   name: string;
   description: string;
   price: string;
@@ -13,20 +15,22 @@ interface AdsResponseDTO {
 const AdsPage = () => {
   const [ads, setAds] = useState<AdsResponseDTO[]>();
   const [query, setQuery] = useState<string>('');
-  const [category, setCategory] = useState<String>('');
-
-  useEffect(() => {
-    fetchAds();
-  }, [query, category]);
-
+  const [category, setCategory] = useState<string>('');
 
   const fetchAds = async () => {
     const { data } = await findAd(query)
     setAds(data);
   }
 
+  useEffect(() => {
+    fetchAds();
+  }, [query, category]);
+
+
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);
   const handleChangeSearchCategory = (e: any) => setCategory(e.target.value)
+
+
 
   const displayAll = () => {
     if (!ads) {
@@ -34,7 +38,7 @@ const AdsPage = () => {
     }
 
     return ads.map((ad) => (
-      <div>
+      <Link to={`/${ad.id}`} key={ad.id}>
         <div>
           <label>Name:</label>
           <label>{ad.name}</label>
@@ -55,14 +59,12 @@ const AdsPage = () => {
           <label>Category:</label>
           <label>{ad.category}</label>
         </div>
-        <div>
-          <tr>
-            <th scope="row">
-              <img src={ad.url} width="250" height="200" alt="" />
-            </th>
-          </tr>
-        </div>
-      </div>
+        <tr>
+          <th scope="row">
+            <img src={ad.url} width="250" height="200" alt="" />
+          </th>
+        </tr>
+      </Link>
     ))
   }
 

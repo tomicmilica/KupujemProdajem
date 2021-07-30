@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { Form, Input, Button, Checkbox } from 'antd';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const LoginPage = () => {
   const [usernameLog, setEmail] = useState("");
@@ -8,7 +10,7 @@ export const LoginPage = () => {
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/login", {
+    Axios.post(BASE_URL + "/login", {
       username: usernameLog,
       password: passwordLog,
     }).then((response) => {
@@ -16,42 +18,47 @@ export const LoginPage = () => {
     });
   };
 
-  return (
-    <>
-    <div className="box-layout">
-      <form onSubmit={login}>
-        <div>
-          <h1>Login-Page</h1>
-          <label>Username:</label>
-          <input
-            type="username"
-            name="username"
-            id="username"
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          ></input>
-        </div>
-        <div>
-          <button type="submit" value="Login">
-            Login
-          </button>
-        </div>
-        <Link to="/register" className="btn btn-primary">
-          Sign up
-        </Link>
-      </form>
-      </div>
-    </>
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
 
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+  return (
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[{ required: true, message: 'Please input your username!' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+        <Checkbox>Remember me</Checkbox>
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit" value="Login">
+          Login
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
