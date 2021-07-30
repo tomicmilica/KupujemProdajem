@@ -42,6 +42,7 @@ const AdsPage = () => {
         <div>
           <label>Name:</label>
           <label>{ad.name}</label>
+
         </div>
         <div>
           <label>Description:</label>
@@ -64,6 +65,11 @@ const AdsPage = () => {
             <img src={ad.url} width="250" height="200" alt="" />
           </th>
         </tr>
+        <Link to={`/${ad.id}`} key={ad.id}>
+          <button type="button">
+            Details
+          </button>
+        </Link>
       </div>
     ))
   }

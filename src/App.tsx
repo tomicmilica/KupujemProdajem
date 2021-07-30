@@ -19,6 +19,7 @@ export const App = () => {
         <Route exact path="/register" component={RegisterPage} />
         <Route path="/editAd/:id" component={EditAdPage} />
         <Route exact path="/:id" component={AdPage} />
+        <Route exact path="remove/:id" component={AdPage} />
       </Switch>
     </BrowserRouter>
   );

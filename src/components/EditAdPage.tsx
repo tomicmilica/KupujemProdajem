@@ -58,13 +58,13 @@ const EditAdPage = ({ match }: any) => {
                     <Input id="name" value={ad.name} name="name" onChange={handleInputChange} />
                 </Form.Item>
                 <Form.Item label="Description">
-                    <Input id="description" value={ad.description} />
+                    <Input id="description" name="description" value={ad.description} />
                 </Form.Item>
                 <Form.Item label="Price">
-                    <Input id="price" value={ad.price} />
+                    <Input id="price" name="price" value={ad.price} />
                 </Form.Item>
                 <Form.Item label="City">
-                    <Input id="city" value={ad.city} />
+                    <Input id="city" name="city" value={ad.city} />
                 </Form.Item>
                 <Form.Item label="Category">
                     <Input type="text" id="category" value={ad.category} />
