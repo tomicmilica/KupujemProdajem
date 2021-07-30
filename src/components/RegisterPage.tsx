@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const RegisterPage = () => {
   const [usernameReg, setEmail] = useState("");
@@ -8,7 +9,7 @@ export const RegisterPage = () => {
 
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/register", {
+    Axios.post(BASE_URL + "/register", {
       username: usernameReg,
       password: passwordReg,
       phoneNumber: phoneReg,
