@@ -8,10 +8,12 @@ import AdsPage from "./components/AdsPage";
 import NewAdPage from "./components/AddNewAd"
 import EditAdPage from "./components/EditAdPage";
 import { AdPage } from "./components/AdPage";
+import { NavbarIndex } from "./components/Navbar/NavbarIndex";
 
 export const App = () => {
   return (
     <BrowserRouter>
+      <NavbarIndex />
       <Switch>
         <Route exact path="/" component={AdsPage} />
         <Route exact path="/addAd" component={NewAdPage} />

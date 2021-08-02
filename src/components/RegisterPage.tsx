@@ -26,7 +26,7 @@ export const RegisterPage = () => {
     <>
       <form onSubmit={register}>
         <div>
-          <h1>Register-Page</h1>
+          <h1>Register</h1>
           <label>Username:</label>
           <input
             type="username"
