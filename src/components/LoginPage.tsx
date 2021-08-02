@@ -14,7 +14,7 @@ export const LoginPage = () => {
       username: usernameLog,
       password: passwordLog,
     }).then((response) => {
-      console.log(response);
+      localStorage.setItem('token', response.data.token)
     });
   };
 

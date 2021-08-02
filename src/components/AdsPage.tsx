@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { findAd } from '../services/adsPageService'
 import { Link } from "react-router-dom";
+import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 interface AdsResponseDTO {
   id: string,
   name: string;
@@ -16,6 +18,24 @@ const AdsPage = () => {
   const [ads, setAds] = useState<AdsResponseDTO[]>();
   const [query, setQuery] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [user, setUser] = useState<any>();
+
+  const config = {
+    headers: {
+      "x-access-token": localStorage.getItem('token'),
+      Authorization: "Bearer " + localStorage.getItem('token')
+    }
+  }
+
+  const fetchUser = async () => {
+    axios.get(BASE_URL + `/user`, config).then(
+      res => {
+        setUser({
+          user: res.data
+        })
+      }
+    )
+  }
 
   const fetchAds = async () => {
     const { data } = await findAd(query);
@@ -26,11 +46,13 @@ const AdsPage = () => {
     fetchAds();
   }, [query, category]);
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
 
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);
   const handleChangeSearchCategory = (e: any) => setCategory(e.target.value)
-
-
 
   const displayAll = () => {
     if (!ads) {
@@ -50,7 +72,7 @@ const AdsPage = () => {
         </div>
         <div>
           <label>Price:</label>
-          <label>{ad.price}</label>
+          <label>{ad.price}$</label>
         </div>
         <div>
           <label>City:</label>
@@ -73,7 +95,6 @@ const AdsPage = () => {
       </div>
     ))
   }
-
   return (
     <div>
       <h1>Welcome</h1>
@@ -100,6 +121,7 @@ const AdsPage = () => {
       </form>
     </div>
   );
+
 };
 
 export default AdsPage;

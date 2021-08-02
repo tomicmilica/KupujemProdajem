@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import { useHistory } from 'react-router-dom';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const NewAdPage = () => {
   const [name, setName] = useState("");
@@ -11,8 +12,10 @@ const NewAdPage = () => {
   const [userId, setUserId] = useState("");
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
+  const history = useHistory();
 
   const addNewAd = (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     Axios.post(BASE_URL + "/addNewAd", {
       name: name,
@@ -30,6 +33,8 @@ const NewAdPage = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    history.push(`/`);
   };
 
 
@@ -58,7 +63,7 @@ const NewAdPage = () => {
         <div >
           <label>Choose photo:</label>
           <input
-            type="file"
+            type="url"
             name="url"
             id="url"
             onChange={(e) => setUrl(e.target.value)}>
