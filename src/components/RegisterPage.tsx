@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useHistory } from 'react-router-dom';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const RegisterPage = () => {
@@ -7,8 +8,10 @@ export const RegisterPage = () => {
   const [passwordReg, setPassword] = useState("");
   const [phoneReg, setPhone] = useState("");
 
+  const history = useHistory();
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     Axios.post(BASE_URL + "/register", {
       username: usernameReg,
       password: passwordReg,
@@ -20,6 +23,7 @@ export const RegisterPage = () => {
       .catch((error) => {
         console.log(error);
       });
+    history.push(`/login`);
   };
 
   return (

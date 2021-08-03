@@ -58,16 +58,16 @@ export const AdPage = ({ match }: any) => {
                     <Input id="name" value={ad.name} readOnly />
                 </Form.Item>
                 <Form.Item label="Description">
-                    <Input id="name" value={ad.description} readOnly />
+                    <Input id="description" value={ad.description} readOnly />
                 </Form.Item>
                 <Form.Item label="Price">
-                    <Input id="name" value={ad.price} readOnly />
+                    <Input id="price" value={ad.price} readOnly />
                 </Form.Item>
                 <Form.Item label="City">
-                    <Input id="name" value={ad.city} readOnly />
+                    <Input id="city" value={ad.city} readOnly />
                 </Form.Item>
                 <Form.Item label="Category">
-                    <Input id="name" value={ad.category} readOnly />
+                    <Input id="category" value={ad.category} readOnly />
                 </Form.Item>
                 <img src={ad.url} width="250" height="200" alt="" />
                 <Form.Item>

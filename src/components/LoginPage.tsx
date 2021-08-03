@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Form, Input, Button, Checkbox } from 'antd';
+import { useHistory } from 'react-router-dom';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 export const LoginPage = () => {
   const [usernameLog, setEmail] = useState("");
   const [passwordLog, setPassword] = useState("");
-
+  const history = useHistory();
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     Axios.post(BASE_URL + "/login", {
@@ -16,6 +17,7 @@ export const LoginPage = () => {
     }).then((response) => {
       localStorage.setItem('token', response.data.token)
     });
+    history.push(`/`);
   };
 
   const onFinish = (values: any) => {

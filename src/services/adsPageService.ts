@@ -17,11 +17,9 @@ export const findAd = async (name?: string, category?: string) => {
   if (name) {
     query += `search=${name}`;
   }
-
   if (category) {
     query += `&category=${category}`
   }
-
 
   const response = await axios.get(BASE_URL + `/findAd?${query}`);
   console.log(response);

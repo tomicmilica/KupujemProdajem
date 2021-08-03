@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 interface AdsResponseDTO {
   id: string,
   name: string;
@@ -22,8 +23,7 @@ const AdsPage = () => {
 
   const config = {
     headers: {
-      "x-access-token": localStorage.getItem('token'),
-      Authorization: "Bearer " + localStorage.getItem('token')
+      "x-access-token": localStorage.getItem('token')
     }
   }
 
@@ -38,7 +38,7 @@ const AdsPage = () => {
   }
 
   const fetchAds = async () => {
-    const { data } = await findAd(query);
+    const { data } = await findAd(query, category);
     setAds(data);
   }
 
@@ -87,11 +87,6 @@ const AdsPage = () => {
             <img src={ad.url} width="250" height="200" alt="" />
           </th>
         </tr>
-        <Link to={`/${ad.id}`} key={ad.id}>
-          <button type="button">
-            Details
-          </button>
-        </Link>
       </div>
     ))
   }
@@ -111,7 +106,6 @@ const AdsPage = () => {
           <option value="baby">baby</option>
           <option value="technology">technology</option>
         </select>
-        <button>Search</button>
       </div>
       <div>
         <input type="text" onChange={handleChangeSearchQuery} placeholder="Search..." />
