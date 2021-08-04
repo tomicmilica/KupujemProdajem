@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { findAd } from '../services/adsPageService'
 import { Link } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from 'jwt-decode'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -19,12 +20,15 @@ const AdsPage = () => {
   const [ads, setAds] = useState<AdsResponseDTO[]>();
   const [query, setQuery] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
   const [user, setUser] = useState<any>();
+
 
   const config = {
     headers: {
-      "x-access-token": localStorage.getItem('token')
+      "x-access-token": "Bearer " + localStorage.getItem('token'),
     }
+
   }
 
   const fetchUser = async () => {
@@ -38,13 +42,13 @@ const AdsPage = () => {
   }
 
   const fetchAds = async () => {
-    const { data } = await findAd(query, category);
+    const { data } = await findAd(query, category, price);
     setAds(data);
   }
 
   useEffect(() => {
     fetchAds();
-  }, [query, category]);
+  }, [query, category, price]);
 
   useEffect(() => {
     fetchUser();
@@ -53,6 +57,7 @@ const AdsPage = () => {
 
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);
   const handleChangeSearchCategory = (e: any) => setCategory(e.target.value)
+  const handleChangeSearchPrice = (e: any) => setPrice(e.target.value)
 
   const displayAll = () => {
     if (!ads) {
@@ -64,7 +69,6 @@ const AdsPage = () => {
         <div>
           <label>Name:</label>
           <label>{ad.name}</label>
-
         </div>
         <div>
           <label>Description:</label>
@@ -87,6 +91,11 @@ const AdsPage = () => {
             <img src={ad.url} width="250" height="200" alt="" />
           </th>
         </tr>
+        <Link to={`/${ad.id}`} key={ad.id}>
+          <button type="button">
+            Details
+          </button>
+        </Link>
       </div>
     ))
   }
@@ -110,6 +119,16 @@ const AdsPage = () => {
       <div>
         <input type="text" onChange={handleChangeSearchQuery} placeholder="Search..." />
       </div>
+      <div >
+        <select className="form-select" value={price} onChange={handleChangeSearchPrice}>
+          <option value="" disabled>Sort by price:</option>
+          <option id="min" value="min">Price descending</option>
+          <option id="max" value="max">Price ascending</option>
+        </select>
+      </div>
+      <label>Only me:
+        <input name="onlyMe" type='checkbox' />
+      </label>
       <form>
         <div>{ads ? displayAll() : <p>Ucitavanje...</p>}</div>
       </form>

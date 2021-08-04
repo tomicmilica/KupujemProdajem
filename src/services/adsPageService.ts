@@ -10,7 +10,7 @@ export const getAd = async (id?: number) => {
   return response;
 };
 
-export const findAd = async (name?: string, category?: string) => {
+export const findAd = async (name?: string, category?: string, price?: string) => {
 
   let query = '';
 
@@ -19,6 +19,9 @@ export const findAd = async (name?: string, category?: string) => {
   }
   if (category) {
     query += `&category=${category}`
+  }
+  if (price) {
+    query += `&price=${price}`
   }
 
   const response = await axios.get(BASE_URL + `/findAd?${query}`);
