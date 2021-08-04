@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useHistory } from 'react-router-dom';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const RegisterPage = () => {
   const [usernameReg, setEmail] = useState("");
   const [passwordReg, setPassword] = useState("");
   const [phoneReg, setPhone] = useState("");
 
+  const history = useHistory();
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/register", {
+
+    Axios.post(BASE_URL + "/register", {
       username: usernameReg,
       password: passwordReg,
       phoneNumber: phoneReg,
@@ -19,13 +23,14 @@ export const RegisterPage = () => {
       .catch((error) => {
         console.log(error);
       });
+    history.push(`/login`);
   };
 
   return (
     <>
       <form onSubmit={register}>
         <div>
-          <h1>Register-Page</h1>
+          <h1>Register</h1>
           <label>Username:</label>
           <input
             type="username"
