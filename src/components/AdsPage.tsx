@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { findAd } from '../services/adsPageService'
 import { Link } from "react-router-dom";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 interface AdsResponseDTO {
   id: string,
   name: string;
@@ -28,7 +26,6 @@ const AdsPage = () => {
   useEffect(() => {
     fetchAds();
   }, [query, category, price]);
-
 
 
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);

@@ -11,11 +11,11 @@ import { AdPage } from "./components/AdPage";
 import { NavbarIndex } from "./components/Navbar/NavbarIndex";
 import { authAxios } from './configAuth'
 
-authAxios.interceptors.request.use((request: any) => {
-  console.log('rquest:', request);
-  request.headers["Authorization"] = ("Bearer " + localStorage.getItem('token'));
+authAxios.interceptors.request.use((config: any) => {
+  console.log('rquest:', config);
+  config.headers["Authorization"] = ("Bearer " + localStorage.getItem('token'));
 
-  return request;
+  return config;
 }, error => {
   console.log({ error })
   return Promise.reject(error)
