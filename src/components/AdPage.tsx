@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAd } from '../services/adsPageService'
 import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios'
+import { authAxios } from '../configAuth'
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
@@ -43,7 +43,7 @@ export const AdPage = ({ match }: any) => {
     }
 
     const removeAd = async (id: number) => {
-        const { data } = await axios.delete(BASE_URL + `/${id}`, {
+        const { data } = await authAxios.delete(BASE_URL + `/${id}`, {
             ...ad
         });
         setAd(data);

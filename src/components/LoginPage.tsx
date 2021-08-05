@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Axios from "axios";
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { authAxios } from '../configAuth'
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
@@ -11,7 +11,7 @@ export const LoginPage = () => {
   const history = useHistory();
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post(BASE_URL + "/login", {
+    authAxios.post(BASE_URL + "/login", {
       username: usernameLog,
       password: passwordLog,
     }).then((response) => {
@@ -73,6 +73,6 @@ export const LoginPage = () => {
           </Button>
         </Form.Item>
       </Form >
-    </div>
+    </div >
   );
 };

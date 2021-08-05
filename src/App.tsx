@@ -9,6 +9,25 @@ import NewAdPage from "./components/AddNewAd"
 import EditAdPage from "./components/EditAdPage";
 import { AdPage } from "./components/AdPage";
 import { NavbarIndex } from "./components/Navbar/NavbarIndex";
+import { authAxios } from './configAuth'
+
+authAxios.interceptors.request.use((request: any) => {
+  console.log('rquest:', request);
+  request.headers["Authorization"] = ("Bearer " + localStorage.getItem('token'));
+
+  return request;
+}, error => {
+  console.log({ error })
+  return Promise.reject(error)
+})
+
+authAxios.interceptors.response.use((response: any) => {
+  console.log('response:', response);
+  return response
+}, error => {
+  console.log({ error })
+  return Promise.reject(error)
+})
 
 export const App = () => {
   return (

@@ -1,11 +1,10 @@
-
-import axios from "axios";
+import { authAxios } from '../configAuth'
 require('dotenv').config()
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 export const getAd = async (id?: number) => {
-  const response = await axios.get(BASE_URL + `/getAd/${id}`);
+  const response = await authAxios.get(BASE_URL + `/getAd/${id}`);
   console.log(response);
   return response;
 };
@@ -24,8 +23,7 @@ export const findAd = async (name?: string, category?: string, price?: string) =
     query += `&price=${price}`
   }
 
-  const response = await axios.get(BASE_URL + `/findAd?${query}`);
-  console.log(response);
+  const response = await authAxios.get(BASE_URL + `/findAd?${query}`);
   return response;
 }
 

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { findAd } from '../services/adsPageService'
 import { Link } from "react-router-dom";
-import axios from "axios";
-import jwt_decode from 'jwt-decode'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -21,25 +19,6 @@ const AdsPage = () => {
   const [query, setQuery] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [price, setPrice] = useState<string>('');
-  const [user, setUser] = useState<any>();
-
-
-  const config = {
-    headers: {
-      "x-access-token": "Bearer " + localStorage.getItem('token'),
-    }
-
-  }
-
-  const fetchUser = async () => {
-    axios.get(BASE_URL + `/user`, config).then(
-      res => {
-        setUser({
-          user: res.data
-        })
-      }
-    )
-  }
 
   const fetchAds = async () => {
     const { data } = await findAd(query, category, price);
@@ -50,9 +29,6 @@ const AdsPage = () => {
     fetchAds();
   }, [query, category, price]);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
 
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);
@@ -68,7 +44,7 @@ const AdsPage = () => {
       <div>
         <div>
           <label>Name:</label>
-          <label>{ad.name}</label>
+          <label key={ad.name}>{ad.name}</label>
         </div>
         <div>
           <label>Description:</label>

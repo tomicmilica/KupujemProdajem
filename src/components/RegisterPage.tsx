@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import { authAxios } from '../configAuth'
 import { useHistory } from 'react-router-dom';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -12,7 +12,7 @@ export const RegisterPage = () => {
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    Axios.post(BASE_URL + "/register", {
+    authAxios.post(BASE_URL + "/register", {
       username: usernameReg,
       password: passwordReg,
       phoneNumber: phoneReg,

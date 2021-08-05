@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { authAxios } from '../configAuth'
 require('dotenv').config()
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -32,13 +33,13 @@ const EditAdPage = ({ match }: any) => {
     });
 
     const fetchAd = async () => {
-        const { data } = await axios.get(BASE_URL + `/getAd/${id}`);
+        const { data } = await authAxios.get(BASE_URL + `/getAd/${id}`);
         setAd(data);
         setCategory(data.category)
         setDescription(data.description)
     }
     const PatchAd = async (ad: any) => {
-        const { data } = await axios.patch(BASE_URL + `/${id}`, {
+        const { data } = await authAxios.patch(BASE_URL + `/${id}`, {
             ...ad,
             description: description_new,
             category: category_new

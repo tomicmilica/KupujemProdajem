@@ -6,6 +6,7 @@ export const NavbarIndex = () => {
         localStorage.clear();
         window.location.reload();
     }
+
     return (
         <>
             <Nav>
