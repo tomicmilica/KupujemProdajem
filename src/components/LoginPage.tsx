@@ -1,57 +1,78 @@
 import React, { useState } from "react";
-import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Form, Input, Button, Checkbox } from 'antd';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios'
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const LoginPage = () => {
   const [usernameLog, setEmail] = useState("");
   const [passwordLog, setPassword] = useState("");
-
+  const history = useHistory();
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/login", {
+    axios.post(BASE_URL + "/login", {
       username: usernameLog,
       password: passwordLog,
     }).then((response) => {
-      console.log(response);
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('refreshToken', response.data.refreshToken)
     });
+    history.push(`/`);
   };
 
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
   return (
-    <>
     <div className="box-layout">
-      <form onSubmit={login}>
-        <div>
-          <h1>Login-Page</h1>
-          <label>Username:</label>
-          <input
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        onSubmitCapture={login}
+      >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <Input
             type="username"
             name="username"
             id="username"
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
+            onChange={(e) => setEmail(e.target.value)} />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <Input.Password type="password"
             name="password"
             id="password"
             onChange={(e) => {
               setPassword(e.target.value);
-            }}
-          ></input>
-        </div>
-        <div>
-          <button type="submit" value="Login">
-            Login
-          </button>
-        </div>
-        <Link to="/register" className="btn btn-primary">
-          Sign up
-        </Link>
-      </form>
-      </div>
-    </>
+            }} />
+        </Form.Item>
 
+        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit" value="login">
+            Login
+          </Button>
+        </Form.Item>
+      </Form >
+    </div >
   );
 };
