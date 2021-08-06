@@ -23,7 +23,7 @@ export const findAd = async (name?: string, category?: string, price?: string) =
     query += `&price=${price}`
   }
 
-  const response = await authAxios.get(BASE_URL + `/findAd?${query}`);
+  const response = await authAxios.get(`/findAd?${query}`);
   return response;
 }
 

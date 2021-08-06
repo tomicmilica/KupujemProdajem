@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { findAd } from '../services/adsPageService'
 import { Link } from "react-router-dom";
+import { authAxios } from '../configAuth'
 
 interface AdsResponseDTO {
   id: string,
@@ -17,15 +18,29 @@ const AdsPage = () => {
   const [query, setQuery] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [price, setPrice] = useState<string>('');
+  const [user, setUser] = useState<any>();
 
   const fetchAds = async () => {
     const { data } = await findAd(query, category, price);
     setAds(data);
   }
 
+  const fetchUser = async () => {
+    const res = await authAxios.get(`/user`);
+    setUser({
+      user: res.data
+    })
+  }
+
   useEffect(() => {
     fetchAds();
   }, [query, category, price]);
+
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
 
 
   const handleChangeSearchQuery = (e: any) => setQuery(e.target.value);

@@ -3,7 +3,6 @@ import { getAd } from '../services/adsPageService'
 import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { authAxios } from '../configAuth'
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 interface AdsResponseDTO {
@@ -43,7 +42,7 @@ export const AdPage = ({ match }: any) => {
     }
 
     const removeAd = async (id: number) => {
-        const { data } = await authAxios.delete(BASE_URL + `/${id}`, {
+        const { data } = await authAxios.delete(`/${id}`, {
             ...ad
         });
         setAd(data);

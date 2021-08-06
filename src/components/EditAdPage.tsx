@@ -1,10 +1,8 @@
-import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { authAxios } from '../configAuth'
 require('dotenv').config()
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 interface theAd {
@@ -22,7 +20,6 @@ const EditAdPage = ({ match }: any) => {
     const [category_new, setCategory] = useState("");
     const [description_new, setDescription] = useState("");
 
-    console.log({ match });
     const [ad, setAd] = useState<theAd>({
         name: '',
         description: '',
@@ -33,13 +30,13 @@ const EditAdPage = ({ match }: any) => {
     });
 
     const fetchAd = async () => {
-        const { data } = await authAxios.get(BASE_URL + `/getAd/${id}`);
+        const { data } = await authAxios.get(`/getAd/${id}`);
         setAd(data);
         setCategory(data.category)
         setDescription(data.description)
     }
     const PatchAd = async (ad: any) => {
-        const { data } = await authAxios.patch(BASE_URL + `/${id}`, {
+        const { data } = await authAxios.patch(`/${id}`, {
             ...ad,
             description: description_new,
             category: category_new
@@ -51,8 +48,6 @@ const EditAdPage = ({ match }: any) => {
     useEffect(() => {
         fetchAd();
     }, []);
-
-    //const handleChangeAd = (e: any) => setAds(e.target.value);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAd(prevAd => ({
