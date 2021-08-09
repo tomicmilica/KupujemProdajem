@@ -1,7 +1,11 @@
 import React from 'react'
 import { Nav, Bars, NavManu, NavLink, NavBtnLink, NavBtn } from './Navbar'
+import { UserContext } from '../../context/user-context';
+import { useContext } from "react";
 
 export const NavbarIndex = () => {
+    const { email, setEmail: setGlobalEmail } = useContext(UserContext);
+
     const signOut = () => {
         localStorage.clear();
         window.location.reload();
@@ -13,6 +17,7 @@ export const NavbarIndex = () => {
                 <NavLink to="/" />
                 <Bars />
                 <NavManu>
+                    {email}
                     <NavLink to="/"> Home </NavLink>
                     <NavBtn>
                         <NavBtnLink to="/login">Sign in</NavBtnLink>

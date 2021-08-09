@@ -8,7 +8,6 @@ export const authAxios = axios.create({
 
 export const refreshAccessToken = async (refreshToken: any) => {
     console.log("Refreshing token");
-    console.log(refreshToken)
     const { data: { accessToken } } = await axios.post(BASE_URL + '/refresh', { token: refreshToken });
     localStorage.setItem('token', accessToken);
 
@@ -17,7 +16,6 @@ export const refreshAccessToken = async (refreshToken: any) => {
 
 const interceptors_request = () => {
     authAxios.interceptors.request.use((config: any) => {
-        console.log('request:', config);
         config.headers["Authorization"] = ("Bearer " + localStorage.getItem('token'));
 
         return config;
@@ -29,7 +27,6 @@ const interceptors_request = () => {
 
 const interceptors_response = () => {
     authAxios.interceptors.response.use((response: any) => {
-        console.log('response:', response);
         return response
     }, async (error) => {
         const originalRequest = error.config;

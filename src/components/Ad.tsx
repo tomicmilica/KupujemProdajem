@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAd } from '../services/adsPageService'
+import { getAd } from '../services/ads'
 import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { authAxios } from '../configAuth'

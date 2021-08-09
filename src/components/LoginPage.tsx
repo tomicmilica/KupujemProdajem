@@ -1,24 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios'
+import { UserContext } from '../context/user-context';
+import { useContext } from "react";
+import { getUser } from '../services/user'
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const LoginPage = () => {
   const [usernameLog, setEmail] = useState("");
   const [passwordLog, setPassword] = useState("");
+  //  const [user, setUser] = useState<any>();
+  const { email, setEmail: setEmailContext } = useContext(UserContext);
   const history = useHistory();
-  const login = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post(BASE_URL + "/login", {
+    const res = await axios.post(BASE_URL + "/login", {
       username: usernameLog,
       password: passwordLog,
-    }).then((response) => {
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('refreshToken', response.data.refreshToken)
-    });
-    history.push(`/`);
-  };
+    })
+    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('refreshToken', res.data.refreshToken)
+  }
+
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
@@ -27,8 +33,21 @@ export const LoginPage = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
+
+  const fetchUser = async () => {
+    const user = await getUser();
+    setEmailContext(user.data.toString());
+    history.push(`/`);
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+
   return (
-    <div className="box-layout">
+    <div>
+      <div></div>
       <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -58,9 +77,7 @@ export const LoginPage = () => {
           <Input.Password type="password"
             name="password"
             id="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }} />
+            onChange={(e) => setPassword(e.target.value)} />
         </Form.Item>
 
         <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
@@ -73,6 +90,6 @@ export const LoginPage = () => {
           </Button>
         </Form.Item>
       </Form >
-    </div >
+    </div>
   );
 };
