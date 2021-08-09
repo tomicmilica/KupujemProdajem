@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import { authAxios } from '../configAuth'
+import { useHistory } from 'react-router-dom';
 
 export const RegisterPage = () => {
   const [usernameReg, setEmail] = useState("");
   const [passwordReg, setPassword] = useState("");
   const [phoneReg, setPhone] = useState("");
 
+  const history = useHistory();
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/register", {
+
+    authAxios.post("/register", {
       username: usernameReg,
       password: passwordReg,
       phoneNumber: phoneReg,
@@ -19,13 +22,14 @@ export const RegisterPage = () => {
       .catch((error) => {
         console.log(error);
       });
+    history.push(`/login`);
   };
 
   return (
     <>
       <form onSubmit={register}>
         <div>
-          <h1>Register-Page</h1>
+          <h1>Register</h1>
           <label>Username:</label>
           <input
             type="username"
